@@ -20,10 +20,8 @@ def create_container():
     form = CreateContainer()
     if form.is_submitted():
         result = request.form
-        if form.is_detached == True:
-            client.containers.run(container_image, name=container_name, detach=True)
-        # container_name = result['containername']
-        # container_image = result['containerimage']
-        # client.containers.run(container_image, name=container_name, detach=True)
+        for i in result:
+            print(result[i])
+        #client.containers.run(container_image, name=container_name, detach=True)
     return render_template('create-container.html', form=form)
 

@@ -12,9 +12,6 @@
                     {{ form.containerimage(size=20) }}<br>
                 </p>
                 <p>
-                    Detached (-d): {{ form.is_detached }} 
-                </p>
-                <p>
                     STD Input Open with TTY (-it): {{ form.is_interactive_tty }} 
                 </p>
                 <p>{{ form.submit() }}</p>
