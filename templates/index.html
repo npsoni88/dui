@@ -1,0 +1,16 @@
+{% extends 'base.html' %}
+{% block content %}
+<div class = "container">
+         <h2>Containers List</h2>
+            <div class="row">
+                
+                <div class="col-sm">
+                    {% for i in containers %}
+                        Container name :- {{ i.name }}
+                        Container ID :- {{ i.id }}
+                    {% endfor %}
+                </div>
+            </div>
+            
+    </div>
+{% endblock %}
