@@ -3,4 +3,4 @@ WORKDIR /project
 ADD . /project
 RUN pip install -r requirements.txt
 EXPOSE 5000
-CMD [ "python", "hello.py" ]
+CMD [ "python", "app.py" ]

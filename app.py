@@ -22,7 +22,9 @@ def create_container():
         if form.is_interactive_tty.data == True:
             params['stdin_open'] = True
             params['tty'] = True
-        client.containers.run(container_image, name=container_name, detach=True, **params)
+        x = client.containers.run(container_image, name=container_name, detach=True, **params)
+        flash(f"{container_name} {x.short_id} created")
+
         return redirect(url_for('index'))
     return render_template('create-container.html', form=form)
 
@@ -37,12 +39,14 @@ def container(id):
 def stop_container(id):
     container_instance = client.containers.get(container_id=str(id))
     container_instance.stop()
+    flash(f"Stopped {id}")
     return redirect(url_for('index'))
 
 @app.route('/start-container/<id>', methods=['POST'])
 def start_container(id):
     container_instance = client.containers.get(container_id=str(id))
     container_instance.start()
+    flash(f"Started {id}")
     return redirect(url_for('index'))
 
 @app.route('/remove-container/<id>', methods=['POST'])
@@ -50,6 +54,7 @@ def remove_container(id):
     container_instance = client.containers.get(container_id=str(id))
     container_instance.stop()
     container_instance.remove()
+    flash(f"Deleted {id}")
     return redirect(url_for('index'))
 
 

@@ -1,6 +1,21 @@
 {% extends 'base.html' %}
+{% block title %}
+    Create a docker container - docker UI
+{% endblock %}
 {% block content %}
 <div class = "container">
+        {% with messages = get_flashed_messages() %}
+            {% if messages %}
+                {% for message in messages %}
+                <div class="alert alert-warning alert-dismissible fade show" role="alert">
+                    <strong>{{ message }} </strong>
+                    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                {% endfor %}
+            {% endif %}
+        {% endwith %}
         <h2>Create a Container</h2>
             <form action="#" method="post">
                 <p>
