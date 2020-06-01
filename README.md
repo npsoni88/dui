@@ -9,7 +9,7 @@ You simlpy need to pull the docker image and run the app as a container. Execute
 That's it. Now you can visit http://localhost:8080 in your browser and you'll see the user interface.
 
 ## Screenshot
-[![An old rock in the desert](screenshot.png)]
+![docker UI Screenshot](screenshot.png "DUI Screenshot")
 
 
 ### Notes
