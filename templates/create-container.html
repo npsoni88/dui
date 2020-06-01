@@ -1,7 +1,7 @@
 {% extends 'base.html' %}
 {% block content %}
 <div class = "container">
-         <h2>Create a Container</h2>
+        <h2>Create a Container</h2>
             <form action="#" method="post">
                 <p>
                     {{ form.containername.label }} 
@@ -16,6 +16,14 @@
                 </p>
                 <p>{{ form.submit() }}</p>
             </form>
+        <hr>
+        <h2> Todo's </h2>
+        <ul>
+            <li> Dropdown for existing images </li>
+            <li> Option to download an image</li>
+            <li> Flash message confirming the creation prior to redirect</li>
+        </ul>
             
-    </div>
+</div>
+
 {% endblock %}

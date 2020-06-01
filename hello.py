@@ -51,3 +51,7 @@ def remove_container(id):
     container_instance.stop()
     container_instance.remove()
     return redirect(url_for('index'))
+
+
+if __name__ == '__main__':
+    app.run(host='0.0.0.0')
