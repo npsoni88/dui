@@ -1,27 +1,53 @@
-from flask import Flask, render_template, request
+from flask import Flask, render_template, request, redirect, url_for, flash
 import docker
-from forms import CreateContainer
+from forms import CreateContainer, ManageContainers
 
 app = Flask(__name__)
 app.config['SECRET_KEY'] = 'myapp'
 client = docker.from_env()
 
-@app.route('/list-containers')
+@app.route('/', methods=['POST','GET'])
 def index():
-    containers_list = client.containers.list(all=False)
-    for i in containers_list:
-        print(i)
-    return render_template('index.html', containers=containers_list)
-
+    form = ManageContainers()
+    containers_list = client.containers.list(all=True)
+    return render_template('index.html', containers=containers_list, form=form)
 
 @app.route('/create-container', methods=['POST','GET'])
 def create_container():
-    #client = docker.from_env()
     form = CreateContainer()
     if form.is_submitted():
-        result = request.form
-        for i in result:
-            print(result[i])
-        #client.containers.run(container_image, name=container_name, detach=True)
+        params = {}
+        container_image = form.containerimage.data
+        container_name = form.containername.data
+        if form.is_interactive_tty.data == True:
+            params['stdin_open'] = True
+            params['tty'] = True
+        client.containers.run(container_image, name=container_name, detach=True, **params)
+        return redirect(url_for('index'))
     return render_template('create-container.html', form=form)
 
+
+@app.route('/<id>')
+def container(id):
+    return (f"This is {id} container")
+
+
+
+@app.route('/stop-container/<id>', methods=['POST'])
+def stop_container(id):
+    container_instance = client.containers.get(container_id=str(id))
+    container_instance.stop()
+    return redirect(url_for('index'))
+
+@app.route('/start-container/<id>', methods=['POST'])
+def start_container(id):
+    container_instance = client.containers.get(container_id=str(id))
+    container_instance.start()
+    return redirect(url_for('index'))
+
+@app.route('/remove-container/<id>', methods=['POST'])
+def remove_container(id):
+    container_instance = client.containers.get(container_id=str(id))
+    container_instance.stop()
+    container_instance.remove()
+    return redirect(url_for('index'))

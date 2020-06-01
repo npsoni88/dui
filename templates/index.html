@@ -1,16 +1,45 @@
 {% extends 'base.html' %}
+{% block title %}
+List containers - docker UI
+{% endblock %}
 {% block content %}
 <div class = "container">
-         <h2>Containers List</h2>
-            <div class="row">
+    <table class="table table-hover">
+        <thead>
+            <tr>
+            <th scope="col">ID</th>
+            <th scope="col">Container Name</th>
+            <th scope="col">Container Image</th>
+            <th scope="col">Ports</th>
+            <th scope="col">Status</th>
+            </tr>
+        </thead>
+        {% for i in containers %}
+        <tbody>
+            <tr>
                 
-                <div class="col-sm">
-                    {% for i in containers %}
-                        Container name :- {{ i.name }}
-                        Container ID :- {{ i.id }}
-                    {% endfor %}
-                </div>
-            </div>
-            
-    </div>
+                <th scope="row"><a href="/{{ i.short_id }}">{{ i.short_id }}</a></th>
+                <td>{{ i.name }}</td>
+                <td>{{ i.image.tags }}</td>
+                <td>{{ i.ports }}</td>
+                <td>{{ i.status }}</td>
+                <td>
+                    <form action={{ url_for('stop_container', id=i.short_id) }} method='post'>
+                        {{ form.stop_container(class_="btn btn-primary") }}
+                    </form>
+                </td>
+                <td>
+                    <form action={{ url_for('start_container', id=i.short_id) }} method='post'>
+                        {{ form.start_container(class_="btn btn-primary") }}
+                    </form>
+                </td>
+                <td>
+                    <form action={{ url_for('remove_container', id=i.short_id) }} method='post'>
+                        {{ form.remove_container(class_="btn btn-danger") }}
+                    </form>
+                </td>
+            </tr>
+        </tbody>
+        {% endfor %}
+    </table>
 {% endblock %}
